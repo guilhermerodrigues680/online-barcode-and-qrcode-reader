@@ -5,13 +5,16 @@ import pt from 'vuetify/lib/locale/pt';
 Vue.use(Vuetify);
 
 export default new Vuetify({
+  // breakpoint: {
+  //   mobileBreakpoint: 'sm'
+  // },
   theme: {
       options: {
         customProperties: true,
       },
     themes: {
       light: {
-        primary: '#ee44aa',
+        primary: '#ed5645',
         secondary: '#424242',
         accent: '#82B1FF',
         error: '#FF5252',
