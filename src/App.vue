@@ -7,7 +7,10 @@
       elevate-on-scroll
     >
       <v-app-bar-nav-icon @click="drawer = !drawer">
-        <v-icon large>mdi-menu</v-icon>
+        <v-icon
+          large
+          v-text="drawer ? 'mdi-backburger' : 'mdi-menu'"
+        ></v-icon>
       </v-app-bar-nav-icon>
       <div class="d-flex align-center">
         <!-- <v-img
@@ -30,8 +33,13 @@
       </div>
 
       <v-spacer></v-spacer>
+      <div class="text-body-1 pr-3 d-flex flex-column justify-center align-center">
+        <div class="text-h6 text-uppercase">Leitor Online</div>
+        <div>Código de barras e QR Code</div>
+      </div>
+      <v-spacer></v-spacer>
 
-      <v-icon class="text-h1">mdi-barcode</v-icon>
+      <v-icon x-large>mdi-barcode-scan</v-icon>
 
       <!-- <v-btn
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
