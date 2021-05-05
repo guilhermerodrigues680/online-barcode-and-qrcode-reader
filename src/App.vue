@@ -39,7 +39,12 @@
       </div>
       <v-spacer></v-spacer>
 
-      <v-icon x-large>mdi-barcode-scan</v-icon>
+      <v-btn
+        icon
+        to="/scanner"
+      >
+        <v-icon x-large>mdi-barcode-scan</v-icon>
+      </v-btn>
 
       <!-- <v-btn
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
@@ -96,7 +101,7 @@
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          
+
           <v-list-item
             href="https://github.com/guilhermerodrigues680"
             target="_blank"
@@ -112,7 +117,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        
+
       </v-navigation-drawer>
       <router-view/>
     </v-main>
@@ -128,6 +133,7 @@ export default {
     drawer: null,
     linkPages: [
       { title: 'Home', icon: 'mdi-home-outline', to: '/' },
+      { title: 'Leitor', icon: 'mdi-barcode', to: '/scanner' },
       { title: 'Sobre', icon: 'mdi-information-variant', to: '/about' },
     ],
   }),
