@@ -4,7 +4,8 @@
       app
       color="primary"
       dark
-      elevate-on-scroll
+      flat
+      clipped-left
     >
       <v-app-bar-nav-icon @click="drawer = !drawer">
         <v-icon
@@ -56,69 +57,73 @@
       </v-btn> -->
     </v-app-bar>
 
-    <v-main>
-      <v-navigation-drawer
-        v-model="drawer"
-        absolute
-        :width="$vuetify.breakpoint.mobile ? '85%' : 256"
-        color="blue-grey lighten-5"
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      :width="$vuetify.breakpoint.mobile ? '85%' : 256"
+      color="blue-grey lighten-5"
+      clipped
+      :style="{ top: $vuetify.application.top + 'px', zIndex: 4 }"
+    >
+      <!-- class="pt-14" -->
+      <v-list
+        rounded
+        color="white"
+        class="navigation-drawer-pb"
       >
-        <v-list
-          rounded
-          color="white"
-          class="navigation-drawer-pb"
+        <v-list-item
+          v-for="linkPage in linkPages"
+          :key="linkPage.title"
+          :to="linkPage.to"
+          color="blue-grey"
+          link
+          @click="drawer = false"
         >
-          <v-list-item
-            v-for="linkPage in linkPages"
-            :key="linkPage.title"
-            :to="linkPage.to"
-            color="blue-grey"
-            link
-            @click="drawer = false"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ linkPage.icon }}</v-icon>
-            </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>{{ linkPage.icon }}</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title class="text-subtitle-1 font-weight-light">
-                {{ linkPage.title }}
-              </v-list-item-title>
-            </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title class="text-subtitle-1 font-weight-light">
+              {{ linkPage.title }}
+            </v-list-item-title>
+          </v-list-item-content>
 
-            <v-list-item-icon>
-              <v-icon>mdi-chevron-right</v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list>
+          <v-list-item-icon>
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list>
 
 
-        <v-list>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="text-subtitle-1 font-weight-bold grey--text text--darken-2">
-                Powered by
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+      <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="text-subtitle-1 font-weight-bold grey--text text--darken-2">
+              Powered by
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-          <v-list-item
-            href="https://github.com/guilhermerodrigues680"
-            target="_blank"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-github</v-icon>
-            </v-list-item-icon>
+        <v-list-item
+          href="https://github.com/guilhermerodrigues680"
+          target="_blank"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-github</v-icon>
+          </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title class="text-subtitle-1 font-weight-light">
-                /guilhermerodrigues680
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+          <v-list-item-content>
+            <v-list-item-title class="text-subtitle-1 font-weight-light">
+              /guilhermerodrigues680
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
 
-      </v-navigation-drawer>
+    </v-navigation-drawer>
+
+    <v-main>
       <router-view/>
     </v-main>
   </v-app>
