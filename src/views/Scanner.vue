@@ -24,6 +24,7 @@ export default {
 
   data: () => ({
     decodeHistory: [], // TODO: usar esse valor
+    stream: null,
   }),
 
   mounted() {
@@ -35,10 +36,12 @@ export default {
       video: {
         facingMode: "environment", /* get front camera 'user', to get rear camera set value as 'environment' */
         // width: { exact: 352 }, height: { exact: 288 },
-        width: { exact: 1280 }, height: { exact: 720 },
+        // width: { exact: 1280 }, height: { exact: 720 },
       }
     };
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+      this.stream = stream;
+
       /** @type {HTMLVideoElement} */
       const previewElem = this.$refs.video;
       previewElem.srcObject = stream;
@@ -114,6 +117,15 @@ export default {
       loop();
 
     });
+  },
+
+  beforeDestroy() {
+    console.log("beforeDestroy", this.stream);
+    if (!this.stream) {
+      console.debug("No Stream to stop.")
+      return;
+    }
+    this.stream.getTracks().forEach(track => track.stop());
   },
 
   methods: {
