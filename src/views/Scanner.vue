@@ -13,8 +13,11 @@
 </template>
 
 <script>
-import codereaderWasm from "@/service/codereaderWasm";
 import blobUtils from "@/service/util/blobUtils";
+import WorkerL from "worker-loader!../service/workers/codereaderWorker.js";
+
+/**@type {Worker} */
+const worker = new WorkerL();
 
 export default {
   name: 'Scanner',
@@ -47,37 +50,68 @@ export default {
 
       // loop de leitura do frame do video
       const loop = async () => {
-          console.debug("loop");
-          this.canvasDrawCurrentVideoFrame();
+        console.debug("loop");
+        this.canvasDrawCurrentVideoFrame();
 
-          // send data to webassembly
-          try {
-            const blob = await this.canvasToBlob();
-            const bytes = await blobUtils.blobToUint8Array(blob);
-            const myGoApp = await codereaderWasm.getMyGoApp();
-            const result = await myGoApp.readByteArr(bytes);
-            console.info(result);
-            const canvasCopy = this.cloneCanvas();
-            const resultPoints = result.resultPoints;
-            const resPointX0 = resultPoints[0];
-            const resPointX1 = resultPoints[1];
+        // send data to webassembly
+        try {
+          const blob = await this.canvasToBlob();
+          const bytes = await blobUtils.blobToUint8Array(blob);
+          worker.postMessage({ bytes: bytes });
 
-            this.canvasDrawLine(canvasCopy, resPointX0.x, resPointX0.y, resPointX1.x, resPointX1.y);
-            canvasCopy.toBlob(blob => {
-              this.decodeHistory.unshift({ objUrl: URL.createObjectURL(blob), text: result.text });
-            }, "image/jpeg", 0.2)
-          } catch(err) {
-            if (err.message !== "NotFoundException") {
-              // unhandled error
-              console.error(err);
-            }
+          /**@param {MessageEvent} e */
+          // onmessage = (e) => {
+          //   // const myGoApp = await codereaderWasm.getMyGoApp();
+          //   // const result = await myGoApp.readByteArr(bytes);
+          //   const result = e.data;
+          //   console.info(result);
+          //   // const canvasCopy = this.cloneCanvas();
+          //   // const resultPoints = result.resultPoints;
+          //   // const resPointX0 = resultPoints[0];
+          //   // const resPointX1 = resultPoints[1];
+
+          //   // this.canvasDrawLine(canvasCopy, resPointX0.x, resPointX0.y, resPointX1.x, resPointX1.y);
+          //   // canvasCopy.toBlob(blob => {
+          //   //   this.decodeHistory.unshift({ objUrl: URL.createObjectURL(blob), text: result.text });
+          //   // }, "image/jpeg", 0.2)
+
+          //   // console.log(e)
+          //   setTimeout(() => loop(), 2000);
+          // }
+          return
+
+        } catch(err) {
+          if (err.message !== "NotFoundException") {
+            // unhandled error
+            console.error(err);
           }
+        }
 
-          setTimeout(() => loop(), 500);
-        };
+        setTimeout(() => loop(), 2000);
+      };
 
-        // Start loop
-        loop();
+      /**@param {MessageEvent} e */
+      worker.onmessage = (e) => {
+        const { data } = e;
+
+        if (!data.error) {
+          console.log(data);
+          console.log('ok!', data.result);
+          alert(data.result.text);
+        } else {
+          if (data.error.message === "NotFoundException") {
+            console.debug("NotFound")
+          } else {
+            // unhandled error
+            console.log('unhandled error:', data.error);
+          }
+        }
+
+        setTimeout(() => loop(), 50);
+      };
+
+      // Start loop
+      loop();
 
     });
   },
