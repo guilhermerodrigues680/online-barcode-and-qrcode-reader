@@ -1,5 +1,5 @@
 <template>
-  <div class="scanner" ref="container">
+  <div class="scanner">
     <div class="player-container">
       <video ref="video" autoplay="true" muted="true" playsinline="true" width="1px"></video>
     </div>
@@ -29,8 +29,6 @@ export default {
 
   mounted() {
     console.log(this)
-    // console.log(this.$refs.container)
-    this.$refs.container.addEventListener('touchmove', function(e) { e.preventDefault(); }, { passive:false });
 
     const constraints = {
       video: {
