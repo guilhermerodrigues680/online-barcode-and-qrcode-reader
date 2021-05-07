@@ -44,6 +44,7 @@ video {
   height: 100%;
   // height: auto;
   object-fit: cover;
+  object-position: 50% 80%;
   position: absolute;
 }
 
