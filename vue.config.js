@@ -9,7 +9,9 @@ process.env.VUE_APP_VERSION = pkgJson.version;
 process.env.VUE_APP_AUTHOR = pkgJson.author;
 process.env.VUE_APP_HOMEPAGE = pkgJson.homepage;
 process.env.VUE_APP_REPOSITORY = pkgJson.repository;
-process.env.VUE_APP_BUILD_DATE = new Date().toISOString();
+// process.env.VUE_APP_BUILD_DATE = new Date().toISOString();
+//FIXME: Usar data correta
+process.env.VUE_APP_BUILD_DATE = new Date(2021, 4, 7, 6, 28, 42).toISOString();
 
 const vueConf = {
   lintOnSave: false,
