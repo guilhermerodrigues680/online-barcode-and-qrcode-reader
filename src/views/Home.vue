@@ -4,7 +4,7 @@
       <source :src="require('@/assets/video/pexels-rodnae-productions-7362811.mp4')">
       Your browser does not support HTML5 video.
     </video>
-    <v-container class="home-body white--text">
+    <v-container fluid class="home-body white--text">
       <v-row class="fill-height">
         <v-col class="fill-height d-flex flex-column justify-center align-center">
           <h1 class="font-weight-light text-center pb-8">
