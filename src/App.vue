@@ -2,10 +2,10 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
       dark
       flat
       clipped-left
+      class="appbar"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer">
         <v-icon
@@ -148,5 +148,11 @@ export default {
 <style lang="scss" scoped>
 .navigation-drawer-pb {
   padding-bottom: 50%;
+}
+
+.appbar {
+  // background: var(--v-primary-base) !important;
+  background: linear-gradient(183deg, var(--v-primary-base) 30%, #fa2c2c 100%) !important;
+  border-color: var(--v-primary-base) !important;
 }
 </style>
