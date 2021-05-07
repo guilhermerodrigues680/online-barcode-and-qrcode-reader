@@ -1,14 +1,10 @@
 <template>
   <div class="scanner">
-    <div class="player-container">
-      <video ref="video" autoplay="true" muted="true" playsinline="true" width="1px"></video>
+    <video ref="video" autoplay="true" muted="true" playsinline="true" width="1px"></video>
+    <div class="overlay">
+      <div class="scanner-line"></div>
     </div>
-    <div class="canvas-container">
-      <canvas ref="canvas" class="canvas"></canvas>
-      <div class="canvas-overlay">
-        <div class="scanner-line"></div>
-      </div>
-    </div>
+    <canvas ref="canvas"></canvas>
   </div>
 </template>
 
@@ -43,11 +39,6 @@ export default {
       /** @type {HTMLVideoElement} */
       const previewElem = this.$refs.video;
       previewElem.srcObject = stream;
-
-      previewElem.onplay = () => {
-        console.debug("play")
-        this.syncCanvasVideo();
-      };
 
       // loop de leitura do frame do video
       const loop = async () => {
@@ -127,48 +118,6 @@ export default {
   },
 
   methods: {
-    syncCanvasVideo() {
-      /** @type {HTMLVideoElement} */
-      const video = this.$refs.video;
-      /** @type {HTMLCanvasElement} */
-      const canvas = this.$refs.canvas;
-
-      const fps = 30;
-      let canvasInterval = null;
-
-      const drawImage = function () {
-        const width = video.videoWidth;
-        const height = video.videoHeight;
-        canvas.width = width;
-        canvas.height = height;
-        canvas.getContext('2d', { alpha: false }).drawImage(video, 0, 0, width, height);
-      }
-
-      canvasInterval = window.setInterval(() => {
-        drawImage();
-      }, 1000 / fps);
-
-      video.onpause = function() {
-        clearInterval(canvasInterval);
-      };
-
-      video.onended = function() {
-        clearInterval(canvasInterval);
-      };
-
-      video.onplay = function() {
-        clearInterval(canvasInterval);
-        canvasInterval = window.setInterval(() => {
-          drawImage();
-        }, 1000 / fps);
-      };
-
-      clearInterval(canvasInterval);
-      canvasInterval = window.setInterval(() => {
-        drawImage();
-      }, 1000 / fps);
-    },
-
     canvasDrawCurrentVideoFrame() {
       /**@type {HTMLVideoElement} */
       const video = this.$refs.video;
@@ -235,27 +184,21 @@ export default {
 
 <style lang="scss" scoped>
 .scanner {
-  overflow-y: hidden;
   height: 100%;
 }
 
-.player-container {
-  position: absolute;
-}
-
-.canvas-container {
-  position: relative;
+video {
+  width: 100%;
   height: 100%;
-  width: 100%;
-}
-
-.canvas {
+  object-fit: cover;
   position: absolute;
-  height: auto;
-  width: 100%;
 }
 
-.canvas-overlay {
+canvas {
+  display: none;
+}
+
+.overlay {
   position: absolute;
   height: 100%;
   width: 100%;
