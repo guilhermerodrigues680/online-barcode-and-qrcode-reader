@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 // computed env vars
 const pkgJson = require('./package.json');
@@ -9,18 +11,35 @@ process.env.VUE_APP_HOMEPAGE = pkgJson.homepage;
 process.env.VUE_APP_REPOSITORY = pkgJson.repository;
 process.env.VUE_APP_BUILD_DATE = new Date().toISOString();
 
-module.exports = {
+const vueConf = {
   lintOnSave: false,
 
   transpileDependencies: [
     'vuetify'
   ],
+}
 
-  devServer: {
+// Configurações distintas em ambiente de produção e desenvolvimento
+if (process.env.NODE_ENV === 'production') {
+  const configureWebpack = {
+    plugins: [
+      new PrerenderSPAPlugin({
+        staticDir: path.join(__dirname, 'dist'),
+        routes: ['/', '/about', '/scanner' ],
+      }),
+    ],
+  };
+  vueConf.configureWebpack = configureWebpack;
+
+} else {
+  const devServer = {
     port: 8081,
     https: {
       key: fs.readFileSync('./certs/key.pem'),
       cert: fs.readFileSync('./certs/cert.pem'),
     },
-  }
+  };
+  vueConf.devServer = devServer;
 }
+
+module.exports = vueConf;
