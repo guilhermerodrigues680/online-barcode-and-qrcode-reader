@@ -65,11 +65,9 @@
       clipped
       :style="{ top: $vuetify.application.top + 'px', zIndex: 4 }"
     >
-      <!-- class="pt-14" -->
       <v-list
         rounded
         color="white"
-        class="navigation-drawer-pb"
       >
         <v-list-item
           v-for="linkPage in linkPages"
@@ -95,6 +93,7 @@
         </v-list-item>
       </v-list>
 
+      <div class="white py-16"></div>
 
       <v-list>
         <v-list-item>
@@ -146,10 +145,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.navigation-drawer-pb {
-  padding-bottom: 50%;
-}
-
 .appbar {
   // background: var(--v-primary-base) !important;
   background: linear-gradient(183deg, var(--v-primary-base) 30%, #fa2c2c 100%) !important;
