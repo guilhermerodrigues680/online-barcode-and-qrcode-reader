@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "author": "Guilherme Rodrigues <guilhermerodrigues680@gmail.com> (https://github.com/guilhermerodrigues680)",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://barcode.guilhermeonline.com.br",
   "repository": "github:guilhermerodrigues680/online-barcode-and-qrcode-reader",
   "scripts": {
