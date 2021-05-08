@@ -2,8 +2,14 @@
  * Global Styles
 */
 
+:root {
+  // vhMobileFix.js
+  --app-height: 100%;
+}
+
 html, body, #app {
-  height: 100%;
+  height: 100%; // fallback
+  height: var(--app-height);
 }
 
 #app > .v-application--wrap {
